@@ -7,7 +7,7 @@ package com.vi.model;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.*;
  
 @Getter
