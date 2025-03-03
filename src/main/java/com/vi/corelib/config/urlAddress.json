@@ -1,4 +1,4 @@
 {
-  "producerConfig": "10.1.0.218:9092",
-  "consumerConfig": "10.1.0.218:2181"
+  "producerConfig": "",
+  "consumerConfig": ""
 }
