@@ -11,37 +11,36 @@ import org.hibernate.annotations.NotFoundAction;
 import jakarta.persistence.*;
 import java.util.Date;
 
-@Entity(name = "Allotment")
-@Table(name = "allotments")
+@Entity(name = "companies")
+@Table(name = "companies")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class AllotmentDAO extends BaseDao {
 	
-	@Column(name="doc_num")
-	private String docNum;
 	
-	@Column(name="booking_id")
-	private Long bookingId;
 	
-	@Column(name="allotment_date")
-	private Date allotmentDate;
+	@Column(name="company_code")
+	private Long companyCode;
 	
-	@Column(name="vehicle_id")
-	private Long vehicleId;
+	@Column(name="name")
+	private Date name;
 	
-	@Column(name="branch_id")
-	private Long branchId;
+	@Column(name="description")
+	private Long description;
 	
-	@Column(name="division_id")
-	private Long divisionId;
+	@Column(name="address1")
+	private Long address1;
 	
-	@Column(name="allotted_vin_no")
-	private String allottedVinNo;
+	@Column(name="address2")
+	private Long address2;
 	
-	@Column(name="quote_id")
-	private Long quoteId;
+	@Column(name="address3")
+	private String address3;
+	
+	@Column(name="city")
+	private Long city;
 
 	// @ManyToOne(fetch = FetchType.LAZY)
 	// @NotFound(action = NotFoundAction.IGNORE)

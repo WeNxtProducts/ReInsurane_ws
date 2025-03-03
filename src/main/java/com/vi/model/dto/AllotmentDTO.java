@@ -16,19 +16,19 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AllotmentDTO extends BaseDto {
-  private String docNum;
+ 
 
-  private Long bookingId;
+  private Long companyCode;
 
   private Date allotmentDate;
 
-  private Long vehicleId;
+  private Long name;
 
-  private Long branchId;
+  private Long description;
 
-  private Long divisionId;
+  private Long address1;
 
-  private String allottedVinNo;
+  private String address2;
 
   private Long quoteId;
 

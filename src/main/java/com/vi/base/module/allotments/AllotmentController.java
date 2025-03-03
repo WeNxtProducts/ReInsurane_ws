@@ -46,9 +46,9 @@ public class AllotmentController {
 		allotmentDTO.setCreated(new Date());
 		allotmentDTO.setCreatedBy(userInfo.getUserId());
 		allotmentDTO.setModifiedBy(userInfo.getUserId());
-		if(allotmentDTO.getBranchId()==null) { 
-         		allotmentDTO.setBranchId(userInfo.getDefaultBranchId());
-      	}
+		// if(allotmentDTO.getBranchId()==null) { 
+        //  		allotmentDTO.setBranchId(userInfo.getDefaultBranchId());
+      	// }
 		var allotmentAllotmentDTO = allotmentService.create(allotmentDTO);
 		return ResponseEntity.ok().body(allotmentAllotmentDTO);
 	}
