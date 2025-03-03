@@ -2,7 +2,7 @@
  - Version Number 0.0.1
 */
 
-package com.vi.base.modules.Pxt_fac_hdrs;
+package com.vi.base.modules.pxt_fac_hdrs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,9 +29,6 @@ public class Pxt_fac_hdrController {
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Pxt_fac_hdrDTO>> getAll(@Nullable @RequestParam HashMap<String, String> json) {
-		//json.put("branchId",userInfo.getDefaultBranchId().toString());
-		//json.put("deleted","false");
-		 System.out.print("comming Inside");
 		JsonNode jsonRequest = new ObjectMapper().convertValue(json, JsonNode.class);
 		return ResponseEntity.ok().body(pxt_fac_hdrService.filterData(jsonRequest));
 	}
@@ -43,28 +40,27 @@ public class Pxt_fac_hdrController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<Pxt_fac_hdrDTO> create(@RequestAttribute("userInfo") UserInfo userInfo, @RequestBody Pxt_fac_hdrDTO pxt_fac_hdrDTO) {
-		
-	
+	public ResponseEntity<Pxt_fac_hdrDTO> create( @RequestBody Pxt_fac_hdrDTO pxt_fac_hdrDTO) {
 		var pxt_fac_hdrPxt_fac_hdrDTO = pxt_fac_hdrService.create(pxt_fac_hdrDTO);
 		return ResponseEntity.ok().body(pxt_fac_hdrPxt_fac_hdrDTO);
 	}
 
+
 	@PutMapping("/update")
-	public ResponseEntity<Pxt_fac_hdrDTO> update(@RequestAttribute("userInfo") UserInfo userInfo, @RequestBody Pxt_fac_hdrDTO pxt_fac_hdrDTO) {
+	public ResponseEntity<Pxt_fac_hdrDTO> update( @RequestBody Pxt_fac_hdrDTO pxt_fac_hdrDTO) {
 		
 		var pxt_fac_hdrPxt_fac_hdrDTO = pxt_fac_hdrService.update(pxt_fac_hdrDTO);
 		return ResponseEntity.ok().body(pxt_fac_hdrPxt_fac_hdrDTO);
 	}
 
 	@GetMapping("/filter")
-	public ResponseEntity<List<Pxt_fac_hdrDTO>> filterData(@Nullable @RequestAttribute("userInfo") UserInfo userInfo,@RequestParam(value = "search") String search) {
+	public ResponseEntity<List<Pxt_fac_hdrDTO>> filterData(@RequestParam(value = "search") String search) {
 		
 		return ResponseEntity.ok().body(pxt_fac_hdrService.filterData(search));
 	}
 
 	@GetMapping("/filter2")
-	public ResponseEntity<List<Pxt_fac_hdrDTO>> filterData2(@Nullable @RequestAttribute("userInfo") UserInfo userInfo,@RequestParam HashMap<String, Object> json) {
+	public ResponseEntity<List<Pxt_fac_hdrDTO>> filterData2(@RequestParam HashMap<String, Object> json) {
 	
 		JsonNode jsonRequest = new ObjectMapper().convertValue(json, JsonNode.class);
 		return ResponseEntity.ok().body(pxt_fac_hdrService.filterData(jsonRequest));
