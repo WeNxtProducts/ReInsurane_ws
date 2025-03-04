@@ -1,6 +1,6 @@
 package com.vi;
 
-// import com.tibura.security.authorization.EnableAuthFilter;
+// import com.vi.security.authorization.EnableAuthFilter;
 import com.vi.corelib.exceptions.EnableApiException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
