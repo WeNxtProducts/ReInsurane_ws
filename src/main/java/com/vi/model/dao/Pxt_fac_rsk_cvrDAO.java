@@ -23,7 +23,6 @@ public class Pxt_fac_rsk_cvrDAO  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long FRC_SYS_ID;
 	
-	
 	@Column(name="FRC_FH_SYS_ID ")
 	private Long FRC_FH_SYS_ID;
 	

@@ -2,7 +2,7 @@
  - Version Number 0.0.1
 */
 
-package com.vi.base.modules.pxt_fac_rsk_cvr;
+package com.vi.base.modules.pxt_fac_rsk_cvrs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +24,7 @@ import java.util.List;
 @Slf4j
 public class Pxt_fac_rsk_cvrController {
 
-	@Autowired
+	@Autowired   
 	Pxt_fac_rsk_cvrService pxt_fac_rsk_cvrService;
 
 	@GetMapping("/all")

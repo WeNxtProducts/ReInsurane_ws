@@ -2,7 +2,7 @@
  - Version Number 0.0.1
 */
 
-package com.vi.base.modules.pxt_fac_rsk_cvr;
+package com.vi.base.modules.pxt_fac_rsk_cvrs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.vi.model.dao.Pxt_fac_rsk_cvrDAO;
