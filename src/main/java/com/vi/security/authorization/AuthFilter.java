@@ -54,6 +54,7 @@ public class AuthFilter extends OncePerRequestFilter implements EnvironmentAware
     public String decodeToken(String authorization) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         SecureKeyGen secureKeyGen = new SecureKeyGen();
         String token2 = secureKeyGen.decrypt(authorization);
+        System.out.println(token2);
         return token2;
     }
     private String sendInvalidToken(Long requestId) {
@@ -69,6 +70,7 @@ public class AuthFilter extends OncePerRequestFilter implements EnvironmentAware
         JSONObject decodedToken = new JSONObject(token);
         Date t2 = new Date(decodedToken.getLong("expiryDate"));
         Date t3 = new Date();
+
         if (t3.compareTo(t2) <= 0) {
             return false;
         }
@@ -87,6 +89,7 @@ public class AuthFilter extends OncePerRequestFilter implements EnvironmentAware
             }
             if (isTokenExpired(token2)) {
                 response.getWriter().write(sendExpiredToken(2L));
+                 return;
             }
         }
         try {

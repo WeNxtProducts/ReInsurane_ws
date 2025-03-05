@@ -62,9 +62,6 @@ public class Pxt_fac_rsk_cvrDTO  {
 	private Date FRC_END_FMD;
 
 	
-	private String FRC_SEC_CODE;
-
-	
 	private String FRC_CVR_CODE;
 
 	
@@ -182,7 +179,7 @@ public class Pxt_fac_rsk_cvrDTO  {
 	private Long FRC_FAC_PREM_LC_ORG;
 
 	
-	private Long FRC_REC_TYP;
+	private String FRC_REC_TYP;
 
 	
 	private Long FRC_PLACE_REF_NO;
@@ -192,6 +189,8 @@ public class Pxt_fac_rsk_cvrDTO  {
 
 	
 	private String FRC_TD_TTY_ID;
+
+  private String FRC_SEC_CODE;
 
 
 
