@@ -20,10 +20,10 @@ import java.util.Date;
 public class Pxt_fac_hdrDAO  {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long FH_SYS_ID;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)   
+	private Long FH_SYS_ID;
 	
-	
+
 	@Column(name="FH_UW_SYS_ID")
 	private Long FH_UW_SYS_ID;
 	
