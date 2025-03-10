@@ -31,6 +31,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,24 +66,28 @@ public class Pxt_fac_rsk_cvrControllerCustom {
 	@GetMapping("/getDetails")
 	public ResponseEntity <?> getDetails(@RequestParam HashMap<String, String> json) throws JsonProcessingException {
 		JsonNode jsonRequest = new ObjectMapper().convertValue(json, JsonNode.class);
-
 		var pxt_fac_rsk_cvrPxt_fac_rsk_cvrDTO = pxt_fac_rsk_cvrService.filterData(jsonRequest);
-
-
+		
      	ObjectMapper objectMapper1 = new ObjectMapper();
 		JsonNode jsonArray = objectMapper1.convertValue(pxt_fac_rsk_cvrPxt_fac_rsk_cvrDTO, JsonNode.class);
-
 		List<Map<String, Object>> dataList = new ArrayList<>();
         jsonArray.forEach(node -> dataList.add(objectMapper1.convertValue(node, Map.class)));
-
 		Map<String, Map<String, Object>> structuredData = organizeData(dataList);
-
-        System.out.println(structuredData);
 
 		return ResponseEntity.ok().body(structuredData);
 		}
 
+		@PutMapping("/bulkUpdate")
+		public ResponseEntity<List<Pxt_fac_rsk_cvrDTO>> update(@RequestBody List<Pxt_fac_rsk_cvrDTO> pxt_fac_rsk_cvrDTOList) {
+			List<Pxt_fac_rsk_cvrDTO> updatedList = new ArrayList<>();
 
+			for (Pxt_fac_rsk_cvrDTO pxt_fac_rsk_cvrDTO : pxt_fac_rsk_cvrDTOList) {
+				var updatedDTO = pxt_fac_rsk_cvrService.update(pxt_fac_rsk_cvrDTO);
+				updatedList.add(updatedDTO);
+			}
+
+			return ResponseEntity.ok().body(updatedList);
+		}
 	
 
 		public static Map<String, Map<String, Object>> organizeData(List<Map<String, Object>> dataList) {
