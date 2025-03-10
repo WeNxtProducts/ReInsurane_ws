@@ -1,9 +1,9 @@
 package com.vi.security.authorization;
-;
+
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+//import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +17,8 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 //import javax.security.sasl.AuthenticationException;
 
-import jakarta.persistence.EntityNotFoundException;
-import javax.security.sasl.AuthenticationException;
+//import jakarta.persistence.EntityNotFoundException;
+//import javax.security.sasl.AuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.stream.Stream;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.web.servlet.HandlerExceptionResolver;
+//import org.springframework.web.servlet.HandlerExceptionResolver;
 
 
 @Configuration
@@ -87,10 +87,10 @@ public class AuthFilter extends OncePerRequestFilter implements EnvironmentAware
                 response.getWriter().write(sendInvalidToken(2L));
                 return;
             }
-            if (isTokenExpired(token2)) {
-                response.getWriter().write(sendExpiredToken(2L));
-                 return;
-            }
+            // if (isTokenExpired(token2)) {
+            //     response.getWriter().write(sendExpiredToken(2L));
+            //      return;
+            // }
         }
         try {
             CustomResponseWrapper capturingResponseWrapper = new CustomResponseWrapper(
