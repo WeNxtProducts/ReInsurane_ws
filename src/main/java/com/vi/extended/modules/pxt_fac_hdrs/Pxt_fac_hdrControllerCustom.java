@@ -145,6 +145,7 @@ public class Pxt_fac_hdrControllerCustom {
 
                             List<Map<String, Object>> covers = riskItems.stream().map(item -> {
                                 Map<String, Object> cover = new HashMap<>();
+								cover.put("frc_SYS_ID", item.get("frc_SYS_ID"));
                                 cover.put("frc_CVR_CODE", item.get("frc_CVR_CODE").toString());
                                 cover.put("cqs", "0%");
                                 cover.put("frc_FAC_RATE", item.get("frc_FAC_RATE").toString());

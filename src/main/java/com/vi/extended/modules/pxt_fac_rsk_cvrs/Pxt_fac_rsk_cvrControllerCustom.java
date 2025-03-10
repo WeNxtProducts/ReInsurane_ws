@@ -12,6 +12,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.vi.base.modules.pxt_fac_rsk_cvrs.Pxt_fac_rsk_cvrService;
 import com.vi.corelib.api.MicroService;
 import com.vi.corelib.api.RequestPatterns;
+import com.vi.model.dto.Pxt_fac_hdrDTO;
+import com.vi.model.dto.Pxt_fac_rsk_cvrDTO;
 import com.vi.model.dto.Pxt_fac_rsk_cvrDTOCustom;
 
 
@@ -44,7 +46,7 @@ import java.util.Base64;
 
 
 @RestController
-@RequestMapping("/Pxtfachdr")
+@RequestMapping("/Pxtfacrskcvr")
 @Slf4j
 public class Pxt_fac_rsk_cvrControllerCustom {
     @Autowired
@@ -60,9 +62,8 @@ public class Pxt_fac_rsk_cvrControllerCustom {
 	EntityManager em;
 
 	
-
 	@GetMapping("/getDetails")
-	public ResponseEntity<Map<String, Map<String, Object>>> getDetails(@Nullable @RequestParam HashMap<String, String> json)throws JsonProcessingException  {
+	public ResponseEntity <?> getDetails(@RequestParam HashMap<String, String> json) throws JsonProcessingException {
 		JsonNode jsonRequest = new ObjectMapper().convertValue(json, JsonNode.class);
 
 		var pxt_fac_rsk_cvrPxt_fac_rsk_cvrDTO = pxt_fac_rsk_cvrService.filterData(jsonRequest);
@@ -80,6 +81,8 @@ public class Pxt_fac_rsk_cvrControllerCustom {
 
 		return ResponseEntity.ok().body(structuredData);
 		}
+
+
 	
 
 		public static Map<String, Map<String, Object>> organizeData(List<Map<String, Object>> dataList) {
@@ -105,6 +108,7 @@ public class Pxt_fac_rsk_cvrControllerCustom {
 	
 								List<Map<String, Object>> covers = riskItems.stream().map(item -> {
 									Map<String, Object> cover = new HashMap<>();
+									cover.put("frc_SYS_ID", item.get("frc_SYS_ID").toString());
 									cover.put("frc_CVR_CODE", item.get("frc_CVR_CODE").toString());
 									cover.put("cqs", "0%");
 									cover.put("frc_FAC_RATE", item.get("frc_FAC_RATE").toString());
