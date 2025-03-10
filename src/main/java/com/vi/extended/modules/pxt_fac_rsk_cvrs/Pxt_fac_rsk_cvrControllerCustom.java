@@ -62,66 +62,71 @@ public class Pxt_fac_rsk_cvrControllerCustom {
 	
 
 	@GetMapping("/getDetails")
-	public ResponseEntity<Map<String, Map<String, List<Map<String, Object>>>>> getDetails(@Nullable @RequestParam HashMap<String, String> json) {
+	public ResponseEntity<Map<String, Map<String, Object>>> getDetails(@Nullable @RequestParam HashMap<String, String> json)throws JsonProcessingException  {
 		JsonNode jsonRequest = new ObjectMapper().convertValue(json, JsonNode.class);
-		ObjectMapper objectMapper1 = new ObjectMapper();
-		JsonNode jsonArray = objectMapper1.convertValue(jsonRequest, JsonNode.class);
+
+		var pxt_fac_rsk_cvrPxt_fac_rsk_cvrDTO = pxt_fac_rsk_cvrService.filterData(jsonRequest);
+
+
+     	ObjectMapper objectMapper1 = new ObjectMapper();
+		JsonNode jsonArray = objectMapper1.convertValue(pxt_fac_rsk_cvrPxt_fac_rsk_cvrDTO, JsonNode.class);
 
 		List<Map<String, Object>> dataList = new ArrayList<>();
         jsonArray.forEach(node -> dataList.add(objectMapper1.convertValue(node, Map.class)));
 
-		Map<String, Map<String, List<Map<String, Object>>>> structuredData = organizeData(dataList);
+		Map<String, Map<String, Object>> structuredData = organizeData(dataList);
 
         System.out.println(structuredData);
-		return ResponseEntity.ok().body(structuredData);	}
+
+		return ResponseEntity.ok().body(structuredData);
+		}
 	
 
-	public static Map<String, Map<String, Object>> organizeData(List<Map<String, Object>> dataList) {
-        return dataList.stream()
-            .collect(Collectors.groupingBy(
-                item -> item.get("frc_SEC_CODE").toString(),
-                Collectors.collectingAndThen(Collectors.toList(), secGroup -> {
-                    Map<String, Object> secMap = new HashMap<>();
-
-                    List<Map<String, Object>> risks = secGroup.stream()
-                        .collect(Collectors.groupingBy(item -> item.get("frc_UR_RSK_ID").toString()))
-                        .entrySet().stream()
-                        .map(entry -> {
-                            String riskId = entry.getKey();
-                            List<Map<String, Object>> riskItems = entry.getValue();
-
-                            Map<String, Object> riskData = new HashMap<>();
-                            riskData.put("frc_UR_RSK_ID", riskId);
-                            riskData.put("frc_RISK_TYP", riskItems.get(0).get("frc_RISK_TYP").toString());
-                            riskData.put("expanded", true);
-                            riskData.put("currencies", List.of("USD", "INR"));
-
-                            List<Map<String, Object>> covers = riskItems.stream().map(item -> {
-                                Map<String, Object> cover = new HashMap<>();
-                                cover.put("frc_CVR_CODE", item.get("frc_CVR_CODE").toString());
-                                cover.put("cqs", "0%");
-                                cover.put("frc_FAC_RATE", item.get("frc_FAC_RATE").toString());
-                                cover.put("tty", "0%");
-                                cover.put("frc_SI", item.get("frc_SI").toString());
-                                cover.put("frc_PREM", item.get("frc_PREM").toString());
-                                cover.put("frc_FAC_SI", item.get("frc_FAC_SI").toString());
-                                cover.put("frc_FAC_PREM", item.get("frc_FAC_PREM").toString());
-                                cover.put("frc_PLACE_REF_NO", item.get("frc_PLACE_REF_NO").toString());
-                                return cover;
-                            }).collect(Collectors.toList());
-
-                            riskData.put("covers", covers);
-                            return riskData;
-                        })
-                        .collect(Collectors.toList());
-
-                    secMap.put("risks", risks);
-                    return secMap;
-                })
-            ));
-    }
+		public static Map<String, Map<String, Object>> organizeData(List<Map<String, Object>> dataList) {
+			return dataList.stream()
+				.collect(Collectors.groupingBy(
+					item -> item.get("frc_SEC_CODE").toString(),
+					Collectors.collectingAndThen(Collectors.toList(), secGroup -> {
+						Map<String, Object> secMap = new HashMap<>();
 	
+						List<Map<String, Object>> risks = secGroup.stream()
+							.collect(Collectors.groupingBy(item -> item.get("frc_UR_RSK_ID").toString()))
+							.entrySet().stream()
+							.map(entry -> {
+								String riskId = entry.getKey();
+								List<Map<String, Object>> riskItems = entry.getValue();
 	
+								Map<String, Object> riskData = new HashMap<>();
+								riskData.put("frc_FH_SYS_ID", riskItems.get(0).get("frc_FH_SYS_ID").toString());
+								riskData.put("frc_UR_RSK_ID", riskId);
+								riskData.put("frc_RISK_TYP", riskItems.get(0).get("frc_RISK_TYP").toString());
+								riskData.put("expanded", true);
+								riskData.put("currencies", List.of("USD", "INR"));
+	
+								List<Map<String, Object>> covers = riskItems.stream().map(item -> {
+									Map<String, Object> cover = new HashMap<>();
+									cover.put("frc_CVR_CODE", item.get("frc_CVR_CODE").toString());
+									cover.put("cqs", "0%");
+									cover.put("frc_FAC_RATE", item.get("frc_FAC_RATE").toString());
+									cover.put("tty", "0%");
+									cover.put("frc_SI", item.get("frc_SI").toString());
+									cover.put("frc_PREM", item.get("frc_PREM").toString());
+									cover.put("frc_FAC_SI", item.get("frc_FAC_SI").toString());
+									cover.put("frc_FAC_PREM", item.get("frc_FAC_PREM").toString());
+									cover.put("frc_PLACE_REF_NO", item.get("frc_PLACE_REF_NO").toString());
+									return cover;
+								}).collect(Collectors.toList());
+	
+								riskData.put("covers", covers);
+								return riskData;
+							})
+							.collect(Collectors.toList());
+	
+						secMap.put("risks", risks);
+						return secMap;
+					})
+				));
+		}
 
 
 }
