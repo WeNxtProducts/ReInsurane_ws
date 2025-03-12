@@ -158,6 +158,7 @@ public class Pxt_fac_hdrControllerCustom {
                                 return cover;
                             }).collect(Collectors.toList());
 
+
                             riskData.put("covers", covers);
                             return riskData;
                         })
