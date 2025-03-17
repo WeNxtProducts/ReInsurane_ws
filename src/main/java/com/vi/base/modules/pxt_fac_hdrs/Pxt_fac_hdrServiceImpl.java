@@ -50,15 +50,4 @@ public class Pxt_fac_hdrServiceImpl implements Pxt_fac_hdrService {
 	public List<Pxt_fac_hdrDTO> filterData(JsonNode search) {
 		return pxt_fac_hdrPersistent.filterData(search);
 	}
-
-	@Override
-	public Boolean delete(int id) {
-	
-		throw new UnsupportedOperationException("Unimplemented method 'delete'");
-	}
-
-	@Override
-	public Pxt_fac_hdrDTO get(int id) {
-		throw new UnsupportedOperationException("Unimplemented method 'get'");
-	}
 }
