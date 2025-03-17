@@ -80,4 +80,9 @@ public class Pxt_fac_hdrJPAAdapter implements Pxt_fac_hdrPersistent {
     Specification<Pxt_fac_hdrDAO> result = new FilterSpecificationsBuilder<Pxt_fac_hdrDAO>().with(search).build();
 		return Pxt_fac_hdrMapper.INSTANCE.pxt_fac_hdrDAOListToPxt_fac_hdrDTOList(pxt_fac_hdrRepository.findAll(result));
 	}
+<<<<<<< HEAD
+=======
+
+	
+>>>>>>> a46b12266ea453de0333573c20233b8db4d83760
 }
