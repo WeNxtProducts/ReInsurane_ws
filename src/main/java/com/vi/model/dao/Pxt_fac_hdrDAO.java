@@ -18,9 +18,11 @@ import java.util.Date;
 @Getter
 @Setter
 public class Pxt_fac_hdrDAO  {
-
+ 
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)   
+	// @GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fh_seq")
+    @SequenceGenerator(name = "fh_seq", sequenceName = "pxt_fac_hdr_SEQ", allocationSize = 1)
 	private Long FH_SYS_ID;
 	
 

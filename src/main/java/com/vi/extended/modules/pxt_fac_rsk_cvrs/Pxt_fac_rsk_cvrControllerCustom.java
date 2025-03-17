@@ -93,49 +93,52 @@ public class Pxt_fac_rsk_cvrControllerCustom {
 		public static Map<String, Map<String, Object>> organizeData(List<Map<String, Object>> dataList) {
 			return dataList.stream()
 				.collect(Collectors.groupingBy(
-					item -> item.get("frc_SEC_CODE").toString(),
+					item -> String.valueOf(item.get("frc_SEC_CODE")), // Safe conversion
 					Collectors.collectingAndThen(Collectors.toList(), secGroup -> {
 						Map<String, Object> secMap = new HashMap<>();
-	
+		
 						List<Map<String, Object>> risks = secGroup.stream()
-							.collect(Collectors.groupingBy(item -> item.get("frc_UR_RSK_ID").toString()))
+							.collect(Collectors.groupingBy(item -> String.valueOf(item.get("frc_UR_RSK_ID"))))
 							.entrySet().stream()
 							.map(entry -> {
 								String riskId = entry.getKey();
 								List<Map<String, Object>> riskItems = entry.getValue();
-	
+		
 								Map<String, Object> riskData = new HashMap<>();
-								riskData.put("frc_FH_SYS_ID", riskItems.get(0).get("frc_FH_SYS_ID").toString());
+								riskData.put("frc_FH_SYS_ID", String.valueOf(getOrDefault(riskItems.get(0), "frc_FH_SYS_ID")));
 								riskData.put("frc_UR_RSK_ID", riskId);
-								riskData.put("frc_RISK_TYP", riskItems.get(0).get("frc_RISK_TYP").toString());
+								riskData.put("frc_RISK_TYP", String.valueOf(getOrDefault(riskItems.get(0), "frc_RISK_TYP")));
 								riskData.put("expanded", true);
 								riskData.put("currencies", List.of("USD", "INR"));
-	
+		
 								List<Map<String, Object>> covers = riskItems.stream().map(item -> {
 									Map<String, Object> cover = new HashMap<>();
-									cover.put("frc_SYS_ID", item.get("frc_SYS_ID").toString());
-									cover.put("frc_CVR_CODE", item.get("frc_CVR_CODE").toString());
+									cover.put("frc_SYS_ID", item.get("frc_SYS_ID"));
+									cover.put("frc_CVR_CODE", String.valueOf(getOrDefault(item, "frc_CVR_CODE")));
 									cover.put("cqs", "0%");
-									cover.put("frc_FAC_RATE", item.get("frc_FAC_RATE").toString());
+									cover.put("frc_FAC_RATE", String.valueOf(getOrDefault(item, "frc_FAC_RATE")));
 									cover.put("tty", "0%");
-									cover.put("frc_SI", item.get("frc_SI").toString());
-									cover.put("frc_PREM", item.get("frc_PREM").toString());
-									cover.put("frc_FAC_SI", item.get("frc_FAC_SI").toString());
-									cover.put("frc_FAC_PREM", item.get("frc_FAC_PREM").toString());
-									cover.put("frc_PLACE_REF_NO", item.get("frc_PLACE_REF_NO").toString());
+									cover.put("frc_SI", String.valueOf(getOrDefault(item, "frc_SI")));
+									cover.put("frc_PREM", String.valueOf(getOrDefault(item, "frc_PREM")));
+									cover.put("frc_FAC_SI", String.valueOf(getOrDefault(item, "frc_FAC_SI")));
+									cover.put("frc_FAC_PREM", String.valueOf(getOrDefault(item, "frc_FAC_PREM")));
+									cover.put("frc_PLACE_REF_NO", String.valueOf(getOrDefault(item, "frc_PLACE_REF_NO")));
 									return cover;
 								}).collect(Collectors.toList());
-	
+		
 								riskData.put("covers", covers);
 								return riskData;
 							})
 							.collect(Collectors.toList());
-	
+		
 						secMap.put("risks", risks);
 						return secMap;
 					})
 				));
 		}
-
-
+		
+		// Utility method to handle null values safely
+		private static Object getOrDefault(Map<String, Object> map, String key) {
+			return map.getOrDefault(key, "N/A"); // "N/A" or another default value
+		}
 }
