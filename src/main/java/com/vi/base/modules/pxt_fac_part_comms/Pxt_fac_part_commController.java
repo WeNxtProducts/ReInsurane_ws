@@ -32,7 +32,7 @@ public class Pxt_fac_part_commController {
 		JsonNode jsonRequest = new ObjectMapper().convertValue(json, JsonNode.class);
 		return ResponseEntity.ok().body(pxt_fac_part_commService.filterData(jsonRequest));
 	}
-
+    
 	@GetMapping("/{id}")
 	public ResponseEntity<Pxt_fac_part_commDTO> getOne(@PathVariable Long id) {
 		var pxt_fac_part_commDTO = pxt_fac_part_commService.get(id);

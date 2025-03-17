@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/Pxtfactax")
 @Slf4j
 public class Pxt_fac_taxController {
-    @Autowired
+	@Autowired
     Pxt_fac_taxService pxt_fac_taxService;
     
     @GetMapping("/all")

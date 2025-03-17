@@ -5,10 +5,7 @@
 package com.vi.base.modules.pxt_fac_rsk_cvrs;
 
 import com.vi.model.dao.Pxt_fac_rsk_cvrDAO;
-import com.vi.model.dao.Pxt_fac_taxDAO;
 import com.vi.model.dto.Pxt_fac_rsk_cvrDTO;
-import com.vi.model.dto.Pxt_fac_taxDTO;
-
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
