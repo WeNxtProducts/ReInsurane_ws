@@ -50,4 +50,16 @@ public class Pxt_fac_rsk_cvrJPAAdapterCustom implements Pxt_fac_rsk_cvrPersisten
 		pxt_fac_rsk_cvrRepositoryCustom.save(pxt_fac_rsk_cvrDAO);
 		return true;
 	}
+
+	@Override
+	public Pxt_fac_rsk_cvrDTOCustom get(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'get'");
+	}
+
+	@Override
+	public Boolean delete(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
 }

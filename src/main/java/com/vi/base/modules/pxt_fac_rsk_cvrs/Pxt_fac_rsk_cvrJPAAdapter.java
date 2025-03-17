@@ -80,4 +80,15 @@ public class Pxt_fac_rsk_cvrJPAAdapter implements Pxt_fac_rsk_cvrPersistent {
     Specification<Pxt_fac_rsk_cvrDAO> result = new FilterSpecificationsBuilder<Pxt_fac_rsk_cvrDAO>().with(search).build();
 		return Pxt_fac_rsk_cvrMapper.INSTANCE.pxt_fac_rsk_cvrDAOListToPxt_fac_rsk_cvrDTOList(pxt_fac_rsk_cvrRepository.findAll(result));
 	}
+
+	@Override
+	public Boolean delete(int id) {
+		
+		throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
+
+	@Override
+	public Pxt_fac_rsk_cvrDTO get(int id) {
+		throw new UnsupportedOperationException("Unimplemented method 'get'");
+	}
 }

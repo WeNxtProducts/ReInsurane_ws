@@ -50,4 +50,16 @@ public class Pxt_fac_hdrJPAAdapterCustom implements Pxt_fac_hdrPersistentCustom 
 		pxt_fac_hdrRepositoryCustom.save(pxt_fac_hdrDAO);
 		return true;
 	}
+
+	@Override
+	public Pxt_fac_hdrDTOCustom get(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'get'");
+	}
+
+	@Override
+	public Boolean delete(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
 }

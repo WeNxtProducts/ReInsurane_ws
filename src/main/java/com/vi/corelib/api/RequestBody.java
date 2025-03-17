@@ -12,9 +12,9 @@ public class RequestBody {
   private String value;
   private RequestBody object;
   private List<RequestBody> objectList;
-  private String dataType; // TODO
-  private Boolean required; // TODO
-  private String keyType; // TODO
+  private String dataType; 
+  private Boolean required; 
+  private String keyType; 
   private Boolean encrypted;
   private Boolean decrypted;
   private String securitySalt;

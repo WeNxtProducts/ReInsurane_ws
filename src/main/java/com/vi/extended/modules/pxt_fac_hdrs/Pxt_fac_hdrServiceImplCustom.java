@@ -39,4 +39,16 @@ public class Pxt_fac_hdrServiceImplCustom implements Pxt_fac_hdrServiceCustom {
 	public Boolean delete(Long id) {
 		return pxt_fac_hdrpersistentCustom.delete(id);
 	}
+
+	@Override
+	public Pxt_fac_hdrDTOCustom get(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'get'");
+	}
+
+	@Override
+	public Boolean delete(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
 }

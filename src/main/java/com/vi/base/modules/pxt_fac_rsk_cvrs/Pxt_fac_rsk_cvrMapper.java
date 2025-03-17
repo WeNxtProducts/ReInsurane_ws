@@ -5,7 +5,10 @@
 package com.vi.base.modules.pxt_fac_rsk_cvrs;
 
 import com.vi.model.dao.Pxt_fac_rsk_cvrDAO;
+import com.vi.model.dao.Pxt_fac_taxDAO;
 import com.vi.model.dto.Pxt_fac_rsk_cvrDTO;
+import com.vi.model.dto.Pxt_fac_taxDTO;
+
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -29,4 +32,5 @@ public interface Pxt_fac_rsk_cvrMapper {
 
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	void assignValues(Pxt_fac_rsk_cvrDTO dto, @MappingTarget Pxt_fac_rsk_cvrDAO entity);
+
 }

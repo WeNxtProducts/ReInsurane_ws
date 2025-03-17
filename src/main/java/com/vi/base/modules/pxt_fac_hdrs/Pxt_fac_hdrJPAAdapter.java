@@ -80,4 +80,16 @@ public class Pxt_fac_hdrJPAAdapter implements Pxt_fac_hdrPersistent {
     Specification<Pxt_fac_hdrDAO> result = new FilterSpecificationsBuilder<Pxt_fac_hdrDAO>().with(search).build();
 		return Pxt_fac_hdrMapper.INSTANCE.pxt_fac_hdrDAOListToPxt_fac_hdrDTOList(pxt_fac_hdrRepository.findAll(result));
 	}
+
+	@Override
+	public Boolean delete(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
+
+	@Override
+	public Pxt_fac_hdrDTO get(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'get'");
+	}
 }

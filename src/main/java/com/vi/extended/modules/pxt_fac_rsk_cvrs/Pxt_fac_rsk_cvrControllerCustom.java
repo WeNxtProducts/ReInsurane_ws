@@ -64,7 +64,7 @@ public class Pxt_fac_rsk_cvrControllerCustom {
 
 	
 	@GetMapping("/getDetails")
-	public ResponseEntity <?> getDetails(@RequestParam HashMap<String, String> json) throws JsonProcessingException {
+	public ResponseEntity <?> getDetails(@Nullable @RequestParam HashMap<String, String> json) throws JsonProcessingException {
 		JsonNode jsonRequest = new ObjectMapper().convertValue(json, JsonNode.class);
 		var pxt_fac_rsk_cvrPxt_fac_rsk_cvrDTO = pxt_fac_rsk_cvrService.filterData(jsonRequest);
 		

@@ -6,6 +6,7 @@ public interface MasterBaseService<T> {
   List<T> fetchAll();
 
   T get(Long id);
+  T get(int id);
 
   T create(T t);
 

@@ -50,4 +50,16 @@ public class Pxt_fac_rsk_cvrServiceImpl implements Pxt_fac_rsk_cvrService {
 	public List<Pxt_fac_rsk_cvrDTO> filterData(JsonNode search) {
 		return pxt_fac_rsk_cvrPersistent.filterData(search);
 	}
+
+	@Override
+	public Boolean delete(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
+
+	@Override
+	public Pxt_fac_rsk_cvrDTO get(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'get'");
+	}
 }
