@@ -38,7 +38,7 @@ public class Pxt_uw_csController {
 		var pxt_uw_csDTO = pxt_uw_csService.get(id);
 		return ResponseEntity.ok().body(pxt_uw_csDTO);
 	}
-
+	
 	@PostMapping("/create")
 	public ResponseEntity<Pxt_uw_csDTO> create( @RequestBody Pxt_uw_csDTO pxt_uw_csDTO) {
 		var pxt_uw_csPxt_uw_csDTO = pxt_uw_csService.create(pxt_uw_csDTO);

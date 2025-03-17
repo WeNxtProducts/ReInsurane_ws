@@ -62,46 +62,22 @@ public class Pxt_fac_hdrControllerCustom {
 	Pxt_fac_rsk_cvrService pxt_fac_rsk_cvrService;
 
 	@PostMapping("/fetchDetails")
+    @Transactional 
 	public ResponseEntity<?> fetchDetails(@RequestBody Pxt_fac_hdrDTO pxt_fac_hdrDTO) throws JsonProcessingException {
 
 		var pxt_fac_hdrPxt_fac_hdrDTO = pxt_fac_hdrService.create(pxt_fac_hdrDTO);
 		System.out.print(pxt_fac_hdrPxt_fac_hdrDTO);
 
-		String credentials = env.getProperty("server.oracle.username") + ":"
-				+ env.getProperty("server.oracle.password");
-		String encodedAuth = Base64.getEncoder().encodeToString(credentials.getBytes());
-		String authHeader = "Basic " + encodedAuth;
+		em.createNativeQuery("CALL PXP_FAC.PXP_FAC_POP(:uwSysId, :polIdx, :facIdx, :facPerc)")
+          .setParameter("uwSysId", pxt_fac_hdrPxt_fac_hdrDTO.getFH_UW_SYS_ID())
+          .setParameter("polIdx", pxt_fac_hdrPxt_fac_hdrDTO.getFH_POL_IDX())
+		  .setParameter("facIdx", pxt_fac_hdrPxt_fac_hdrDTO.getFH_FAC_IDX())
+		  .setParameter("facPerc", pxt_fac_hdrPxt_fac_hdrDTO.getFH_FAC_PERC())
+          .executeUpdate();
 
-		WebClient webClient = WebClient.create(env.getProperty("server.oracle"));
-
-		String requestBody = String.format("""
-				{
-					"packageName": "%s",
-					"procedureName": "%s",
-					"inParams": {
-						"P_POLICY_NO": "%s",
-						"P_END_NO_IDX": %s,
-						"P_END_SR_NO": 0
-					}
-				}
-				""",
-				env.getProperty("server.oracle.packageName"),
-				env.getProperty("server.oracle.procedureName"),
-				pxt_fac_hdrPxt_fac_hdrDTO.getFH_UW_NO(),
-				pxt_fac_hdrPxt_fac_hdrDTO.getFH_POL_IDX());
-
-		System.out.println(requestBody);
-		String response = webClient.post()
-				.uri("/common/invokeProcedure")
-				.header("Authorization", authHeader)
-				.contentType(MediaType.APPLICATION_JSON)
-				.bodyValue(requestBody)
-				.retrieve()
-				.bodyToMono(String.class)
-				.block();
 
 		ObjectMapper objectMapper = new ObjectMapper();
-		Map<String, Object> json = Map.of("FRC_FH_SYS_ID", 1);
+		Map<String, Object> json = Map.of("FRC_FH_SYS_ID",pxt_fac_hdrPxt_fac_hdrDTO.getFH_SYS_ID() );
 
 		JsonNode jsonRequest = objectMapper.convertValue(json, JsonNode.class);
 
@@ -114,6 +90,9 @@ public class Pxt_fac_hdrControllerCustom {
 		List<Map<String, Object>> dataList = new ArrayList<>();
         jsonArray.forEach(node -> dataList.add(objectMapper1.convertValue(node, Map.class)));
 
+        System.out.print(dataList);
+
+
         Map<String, Map<String, Object>> structuredData = organizeData(dataList);
 
         System.out.println(structuredData);
@@ -121,54 +100,95 @@ public class Pxt_fac_hdrControllerCustom {
 		return ResponseEntity.ok().body(structuredData);
 	}
 
+	public static String invokeOracleProcedure(Environment env, Pxt_fac_hdrDTO pxtFacHdrDTO) {
+        String credentials = env.getProperty("server.oracle.username") + ":" +
+                              env.getProperty("server.oracle.password");
+        String encodedAuth = Base64.getEncoder().encodeToString(credentials.getBytes());
+        String authHeader = "Basic " + encodedAuth;
+
+        WebClient webClient = WebClient.create(env.getProperty("server.oracle"));
+
+        String requestBody = String.format("""
+                {
+                    "packageName": "%s",
+                    "procedureName": "%s",
+                    "inParams": {
+                        "P_POLICY_NO": "%s",
+                        "P_END_NO_IDX": %s,
+                        "P_END_SR_NO": 0
+                    }
+                }
+                """,
+                env.getProperty("server.oracle.packageName"),
+                env.getProperty("server.oracle.procedureName"),
+                pxtFacHdrDTO.getFH_UW_NO(),
+                pxtFacHdrDTO.getFH_POL_IDX());
+
+        System.out.println(requestBody);
+
+        return webClient.post()
+                .uri("/common/invokeProcedure")
+                .header("Authorization", authHeader)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(requestBody)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+    
+}
+
 	
-	public static Map<String, Map<String, Object>> organizeData(List<Map<String, Object>> dataList) {
-        return dataList.stream()
-            .collect(Collectors.groupingBy(
-                item -> item.get("frc_SEC_CODE").toString(),
-                Collectors.collectingAndThen(Collectors.toList(), secGroup -> {
-                    Map<String, Object> secMap = new HashMap<>();
+public static Map<String, Map<String, Object>> organizeData(List<Map<String, Object>> dataList) {
+    return dataList.stream()
+        .collect(Collectors.groupingBy(
+            item -> String.valueOf(item.get("frc_SEC_CODE")), // Safe conversion
+            Collectors.collectingAndThen(Collectors.toList(), secGroup -> {
+                Map<String, Object> secMap = new HashMap<>();
 
-                    List<Map<String, Object>> risks = secGroup.stream()
-                        .collect(Collectors.groupingBy(item -> item.get("frc_UR_RSK_ID").toString()))
-                        .entrySet().stream()
-                        .map(entry -> {
-                            String riskId = entry.getKey();
-                            List<Map<String, Object>> riskItems = entry.getValue();
+                List<Map<String, Object>> risks = secGroup.stream()
+                    .collect(Collectors.groupingBy(item -> String.valueOf(item.get("frc_UR_RSK_ID"))))
+                    .entrySet().stream()
+                    .map(entry -> {
+                        String riskId = entry.getKey();
+                        List<Map<String, Object>> riskItems = entry.getValue();
 
-                            Map<String, Object> riskData = new HashMap<>();
-							riskData.put("frc_FH_SYS_ID", riskItems.get(0).get("frc_FH_SYS_ID").toString());
-                            riskData.put("frc_UR_RSK_ID", riskId);
-                            riskData.put("frc_RISK_TYP", riskItems.get(0).get("frc_RISK_TYP").toString());
-                            riskData.put("expanded", true);
-                            riskData.put("currencies", List.of("USD", "INR"));
+                        Map<String, Object> riskData = new HashMap<>();
+                        riskData.put("frc_FH_SYS_ID", String.valueOf(getOrDefault(riskItems.get(0), "frc_FH_SYS_ID")));
+                        riskData.put("frc_UR_RSK_ID", riskId);
+                        riskData.put("frc_RISK_TYP", String.valueOf(getOrDefault(riskItems.get(0), "frc_RISK_TYP")));
+                        riskData.put("expanded", true);
+                        riskData.put("currencies", List.of("USD", "INR"));
 
-                            List<Map<String, Object>> covers = riskItems.stream().map(item -> {
-                                Map<String, Object> cover = new HashMap<>();
-								cover.put("frc_SYS_ID", item.get("frc_SYS_ID"));
-                                cover.put("frc_CVR_CODE", item.get("frc_CVR_CODE").toString());
-                                cover.put("cqs", "0%");
-                                cover.put("frc_FAC_RATE", item.get("frc_FAC_RATE").toString());
-                                cover.put("tty", "0%");
-                                cover.put("frc_SI", item.get("frc_SI").toString());
-                                cover.put("frc_PREM", item.get("frc_PREM").toString());
-                                cover.put("frc_FAC_SI", item.get("frc_FAC_SI").toString());
-                                cover.put("frc_FAC_PREM", item.get("frc_FAC_PREM").toString());
-                                cover.put("frc_PLACE_REF_NO", item.get("frc_PLACE_REF_NO").toString());
-                                return cover;
-                            }).collect(Collectors.toList());
+                        List<Map<String, Object>> covers = riskItems.stream().map(item -> {
+                            Map<String, Object> cover = new HashMap<>();
+                            cover.put("frc_SYS_ID", item.get("frc_SYS_ID"));
+                            cover.put("frc_CVR_CODE", String.valueOf(getOrDefault(item, "frc_CVR_CODE")));
+                            cover.put("cqs", "0%");
+                            cover.put("frc_FAC_RATE", String.valueOf(getOrDefault(item, "frc_FAC_RATE")));
+                            cover.put("tty", "0%");
+                            cover.put("frc_SI", String.valueOf(getOrDefault(item, "frc_SI")));
+                            cover.put("frc_PREM", String.valueOf(getOrDefault(item, "frc_PREM")));
+                            cover.put("frc_FAC_SI", String.valueOf(getOrDefault(item, "frc_FAC_SI")));
+                            cover.put("frc_FAC_PREM", String.valueOf(getOrDefault(item, "frc_FAC_PREM")));
+                            cover.put("frc_PLACE_REF_NO", String.valueOf(getOrDefault(item, "frc_PLACE_REF_NO")));
+                            return cover;
+                        }).collect(Collectors.toList());
 
+                        riskData.put("covers", covers);
+                        return riskData;
+                    })
+                    .collect(Collectors.toList());
 
-                            riskData.put("covers", covers);
-                            return riskData;
-                        })
-                        .collect(Collectors.toList());
+                secMap.put("risks", risks);
+                return secMap;
+            })
+        ));
+}
 
-                    secMap.put("risks", risks);
-                    return secMap;
-                })
-            ));
-    }
+// Utility method to handle null values safely
+private static Object getOrDefault(Map<String, Object> map, String key) {
+    return map.getOrDefault(key, "N/A"); // "N/A" or another default value
+}
 	
 	
 

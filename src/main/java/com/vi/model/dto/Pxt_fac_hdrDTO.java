@@ -25,7 +25,7 @@ public class Pxt_fac_hdrDTO  {
 
   private Long FH_POL_IDX;
 
-  private Long FH_FAC_IDX;
+  private Long FH_FAC_IDX = 0L;
 
   private Date FH_TOD ;
 
