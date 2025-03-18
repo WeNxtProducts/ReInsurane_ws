@@ -2,7 +2,7 @@
  - Version Number 0.0.1
 */
 
-package com.vi.base.modules.pxt_fac_hdrs;
+package com.vi.base.modules.Pxt_fac_hdrs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.vi.model.dao.Pxt_fac_hdrDAO;
@@ -80,6 +80,21 @@ public class Pxt_fac_hdrJPAAdapter implements Pxt_fac_hdrPersistent {
     Specification<Pxt_fac_hdrDAO> result = new FilterSpecificationsBuilder<Pxt_fac_hdrDAO>().with(search).build();
 		return Pxt_fac_hdrMapper.INSTANCE.pxt_fac_hdrDAOListToPxt_fac_hdrDTOList(pxt_fac_hdrRepository.findAll(result));
 	}
+<<<<<<< HEAD
+=======
+
+	@Override
+	public Pxt_fac_hdrDTO get(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'get'");
+	}
+
+	@Override
+	public Boolean delete(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
 
 	
+>>>>>>> a46b12266ea453de0333573c20233b8db4d83760
 }
