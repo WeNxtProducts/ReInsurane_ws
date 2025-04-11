@@ -2,7 +2,7 @@
  - Version Number 0.0.1
 */
 
-package com.vi.base.modules.pxt_fac_hdrs;
+package com.vi.base.modules.Pxt_fac_hdrs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.vi.model.dto.Pxt_fac_hdrDTO;
@@ -49,5 +49,17 @@ public class Pxt_fac_hdrServiceImpl implements Pxt_fac_hdrService {
 	@Override
 	public List<Pxt_fac_hdrDTO> filterData(JsonNode search) {
 		return pxt_fac_hdrPersistent.filterData(search);
+	}
+
+	@Override
+	public Pxt_fac_hdrDTO get(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'get'");
+	}
+
+	@Override
+	public Boolean delete(int id) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'delete'");
 	}
 }
