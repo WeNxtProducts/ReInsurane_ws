@@ -2,7 +2,7 @@
  - Version Number 0.0.1
 */
 
-package com.vi.base.modules.Pxt_fac_hdrs;
+package com.vi.base.modules.pxt_fac_hdrs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
